@@ -1,0 +1,25 @@
+# Ignore development folders
+node_modules
+playground
+test
+tests
+coverage
+dist
+src
+.vscode
+.idea
+
+# Ignore configs not needed by users
+tsconfig.json
+tsconfig.*.json
+vite.config.ts
+tailwind.config.js
+postcss.config.js
+vitest.config.ts
+tsup.config.ts
+
+# Ignore logs & junk
+*.log
+*.DS_Store
+
+# Keep only these files (because package.json `"files"` whitelist will include cli + templates)

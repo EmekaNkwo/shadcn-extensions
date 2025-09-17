@@ -1,0 +1,65 @@
+{
+  "name": "shadui-extension",
+  "version": "0.1.15",
+  "description": "ShadUI extension library with Chat components and CLI",
+  "type": "module",
+  "files": [
+    "cli",
+    "src"
+  ],
+  "bin": {
+    "shadui-extension": "cli/build/index.js"
+  },
+  "keywords": [
+    "react",
+    "tailwind",
+    "shadcn",
+    "chat",
+    "ui"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Haymaykus",
+  "scripts": {
+    "dev": "vite playground",
+    "build": "tsc -p cli/tsconfig.json",
+    "build:types": "tsc --emitDeclarationOnly --declaration --project tsconfig.build.json",
+    "prepublishOnly": "npm run build && npm run build:types",
+    "test": "vitest",
+    "lint": "eslint . --ext .ts,.tsx"
+  },
+  "dependencies": {
+    "@radix-ui/react-avatar": "^1.1.10",
+    "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-scroll-area": "^1.2.10",
+    "@radix-ui/react-slot": "^1.2.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.0.0",
+    "commander": "^11.0.0",
+    "fs-extra": "^11.1.1",
+    "lucide-react": "^0.543.0",
+    "tailwind-merge": "^2.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.2.0",
+    "@testing-library/react": "^14.2.1",
+    "@types/fs-extra": "^11.0.4",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "@typescript-eslint/eslint-plugin": "^8.44.0",
+    "@typescript-eslint/parser": "^8.44.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.35.0",
+    "postcss": "^8.5.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.17",
+    "tsup": "^8.5.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.5.0",
+    "vitest": "^0.34.6"
+  }
+}
