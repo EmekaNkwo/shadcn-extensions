@@ -14,11 +14,9 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@/lib/*": ["src/lib/*"], // now points to root/lib
-      "@/components/*": ["src/components/*"]
+      "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "cli", "playground", "test", "src/components", "src/lib"],
+  "include": ["src", "cli", "playground", "test"],
   "exclude": ["node_modules", "dist"]
 }

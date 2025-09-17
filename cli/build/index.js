@@ -77,6 +77,7 @@ program
     const baseShadcnDeps = ["utils", "button", "label"];
     const shadcnDeps = {
         chat: [...baseShadcnDeps, "avatar", "scroll-area", "badge"],
+        upload: [...baseShadcnDeps, "input"],
     };
     // Ensure shadcn@latest init + missing deps installed
     await ensureShadcnInstalled(cwd, shadcnDeps[component] || []);
@@ -84,11 +85,16 @@ program
     if (component === "chat") {
         await ensureHooks(cwd);
     }
+    if (component === "upload") {
+        console.log("📦 Installing react-dropzone...");
+        await runCommand("npm", ["install", "react-dropzone"], cwd);
+        console.log("✅ react-dropzone installed");
+    }
     // Copy templates from src/packages → user project
     const targetDir = path.join(cwd, "src/components", component);
     const templateDir = path.join(__dirname, "../../src/packages", component);
     if (!fs.existsSync(templateDir)) {
-        console.log(`❌ Component '${component}' not found in templates.`);
+        console.log(`❌ Component '${component}' not found in packages.`);
         process.exit(1);
     }
     await fs.ensureDir(targetDir);
