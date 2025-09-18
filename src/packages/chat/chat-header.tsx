@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, MoreVertical, Phone, Video } from "lucide-react";
+import { Label } from "@/components/ui/label";
 
 export interface ChatHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -91,7 +92,7 @@ export function ChatHeader({
             onClick={onBack}
           >
             <ChevronLeft className="h-4 w-4" />
-            <span className="sr-only">Back</span>
+            <Label className="sr-only">Back</Label>
           </Button>
         )}
 
@@ -110,10 +111,12 @@ export function ChatHeader({
 
         <div className="min-w-0">
           {title && (
-            <h2 className="truncate text-base font-semibold">{title}</h2>
+            <Label className="truncate text-base font-semibold">{title}</Label>
           )}
           {subtitle && (
-            <p className="truncate text-sm text-muted-foreground">{subtitle}</p>
+            <Label className="truncate text-sm text-muted-foreground">
+              {subtitle}
+            </Label>
           )}
         </div>
       </div>
@@ -130,7 +133,7 @@ export function ChatHeader({
               onClick={onCall}
             >
               <Phone className="h-4 w-4" />
-              <span className="sr-only">Call</span>
+              <Label className="sr-only">Call</Label>
             </Button>
             <Button
               variant="ghost"
@@ -139,7 +142,7 @@ export function ChatHeader({
               onClick={onVideoCall}
             >
               <Video className="h-4 w-4" />
-              <span className="sr-only">Video call</span>
+              <Label className="sr-only">Video call</Label>
             </Button>
           </>
         )}
@@ -151,7 +154,7 @@ export function ChatHeader({
           onClick={onMoreOptions}
         >
           <MoreVertical className="h-4 w-4" />
-          <span className="sr-only">More options</span>
+          <Label className="sr-only">More options</Label>
         </Button>
       </div>
     </div>

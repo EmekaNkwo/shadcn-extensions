@@ -3,6 +3,8 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Loader2, Paperclip, Send, Smile } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export interface ChatInputProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -162,7 +164,7 @@ export function ChatInput({
       <div className="flex flex-1 flex-col">
         <div className="flex items-end gap-2">
           {showAttachmentButton && (
-            <button
+            <Button
               type="button"
               onClick={onAttachmentClick}
               disabled={disabled}
@@ -178,12 +180,12 @@ export function ChatInput({
               )}
             >
               <Paperclip className="h-4 w-4" />
-              <span className="sr-only">Attach file</span>
-            </button>
+              <Label className="sr-only">Attach file</Label>
+            </Button>
           )}
 
           <div className="relative flex-1">
-            <textarea
+            <Textarea
               value={value}
               onChange={handleChange}
               onKeyDown={handleKeyDown}
@@ -205,7 +207,7 @@ export function ChatInput({
           </div>
 
           {showEmojiButton && (
-            <button
+            <Button
               type="button"
               onClick={onEmojiClick}
               disabled={disabled}
@@ -221,8 +223,8 @@ export function ChatInput({
               )}
             >
               <Smile className="h-4 w-4" />
-              <span className="sr-only">Open emoji picker</span>
-            </button>
+              <Label className="sr-only">Open emoji picker</Label>
+            </Button>
           )}
         </div>
 

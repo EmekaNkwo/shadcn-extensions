@@ -8,6 +8,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "../../components/ui/avatar";
+import { Label } from "@/components/ui/label";
 
 export type MessageRole = "user" | "ai" | "system" | "assistant";
 export type MessageVariant =
@@ -240,7 +241,7 @@ export function ChatMessage({
               isUser ? "justify-end" : "justify-start"
             )}
           >
-            {name && <span className="font-medium">{name}</span>}
+            {name && <Label className="font-medium">{name}</Label>}
             {showTimestamp && timestamp && (
               <time
                 dateTime={new Date(timestamp).toISOString()}
@@ -321,7 +322,7 @@ export function ChatMessage({
 
         {isUser && isRead && (
           <div className="mt-1 flex justify-end gap-1 text-xs text-muted-foreground">
-            <span>Read</span>
+            <Label>Read</Label>
             <Check className="h-3 w-3 text-blue-500" />
           </div>
         )}

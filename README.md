@@ -5,6 +5,8 @@ Currently includes:
 
 - **Chat UI system** (`ChatContainer`, `ChatMessage`, `ChatInput`)
 - **File Upload Components** (`ImageUpload`, `DocumentUpload`, `MultiFileUpload`)
+- **Empty State** (`EmptyState`)
+- **Carousel** (`Carousel`, `CarouselItem`)
 
 Built with **ShadUI + Tailwind + Radix UI**.
 
@@ -18,6 +20,11 @@ Built with **ShadUI + Tailwind + Radix UI**.
   - `ImageUpload`: For single image uploads with preview
   - `DocumentUpload`: For single file uploads with type validation
   - `MultiFileUpload`: For handling multiple file uploads with previews
+- **Empty State**:
+  - `EmptyState`: For displaying an empty state with an icon, title, description, and optional action
+- **Carousel**:
+  - `Carousel`: For creating carousels with multiple items
+  - `CarouselItem`: For creating carousel items
 - Built with **TailwindCSS** and **Radix UI**
 - CLI automatically patches **Tailwind theme tokens**
 
@@ -68,6 +75,25 @@ This will create a `src/components/upload` directory with the following files:
 - `src/components/upload/single-file-upload.tsx`
 - `src/components/upload/index.ts`
 
+```bash
+npx shadui-extension add empty
+```
+
+This will create a `src/components/empty` directory with the following files:
+
+- `src/components/empty/empty-state.tsx`
+- `src/components/empty/index.ts`
+
+```bash
+npx shadui-extension add carousel
+```
+
+This will create a `src/components/carousel` directory with the following files:
+
+- `src/components/carousel/carousel.tsx`
+- `src/components/carousel/carousel-item.tsx`
+- `src/components/carousel/index.ts`
+
 ### Project Structure After Install
 
 ```bash
@@ -88,6 +114,13 @@ src/
 │       ├── document-upload.tsx
 │       ├── multi-file-upload.tsx
 │       ├── single-file-upload.tsx
+│       └── index.ts
+│   └── empty/
+│       ├── empty-state.tsx
+│       └── index.ts
+│   └── carousel/
+│       ├── carousel.tsx
+│       ├── carousel-item.tsx
 │       └── index.ts
 └── components/ui/       (from ShadCN)
     ├── avatar.tsx
@@ -139,6 +172,52 @@ export default function App() {
     <DocumentUpload />
     <MultiFileUpload />
     <SingleFileUpload />
+  );
+}
+```
+
+### Empty State
+
+```tsx
+import { EmptyState } from "@/components/empty";
+```
+
+Use the components in your app:
+
+```tsx
+export default function App() {
+  return (
+    <EmptyState
+      icon={<UploadIcon className="h-8 w-8" />}
+      title="No files uploaded"
+      description="Drag and drop files here or click to upload"
+      action={
+        <Button>
+          <UploadIcon className="mr-2 h-4 w-4" />
+          Upload Files
+        </Button>
+      }
+    />
+  );
+}
+```
+
+### Carousel Components
+
+```tsx
+import { Carousel, CarouselItem } from "@/components/carousel";
+```
+
+Use the components in your app:
+
+```tsx
+export default function App() {
+  return (
+    <Carousel>
+      <CarouselItem>Item 1</CarouselItem>
+      <CarouselItem>Item 2</CarouselItem>
+      <CarouselItem>Item 3</CarouselItem>
+    </Carousel>
   );
 }
 ```

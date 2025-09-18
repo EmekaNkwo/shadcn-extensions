@@ -22,6 +22,8 @@ import {
   FileType2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 export interface DocumentUploadProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
@@ -276,16 +278,18 @@ export function DocumentUpload({
               <div className="flex-shrink-0 mr-3">{getFileIcon(file)}</div>
             )}
             <div className="min-w-0 flex-1">
-              <p className="text-sm font-medium truncate">{file.name}</p>
+              <Label className="text-sm font-medium truncate">
+                {file.name}
+              </Label>
               {showFileSize && (
-                <p className="text-xs text-muted-foreground">
+                <Label className="text-xs text-muted-foreground">
                   {formatFileSize(file.size)}
-                </p>
+                </Label>
               )}
             </div>
             <div className="flex items-center space-x-2">
               {showUploadButton && (
-                <button
+                <Button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -295,9 +299,9 @@ export function DocumentUpload({
                   disabled={disabled}
                 >
                   Change
-                </button>
+                </Button>
               )}
-              <button
+              <Button
                 type="button"
                 onClick={removeFile}
                 className="p-1 rounded-full hover:bg-muted transition-colors"
@@ -305,7 +309,7 @@ export function DocumentUpload({
                 disabled={disabled}
               >
                 <X className="w-4 h-4" />
-              </button>
+              </Button>
             </div>
           </div>
         ) : (
@@ -315,24 +319,24 @@ export function DocumentUpload({
                 <UploadIcon className="w-5 h-5 text-primary" />
               </div>
               <div className="space-y-1">
-                <p className="text-sm font-medium">
+                <Label className="text-sm font-medium">
                   {isDragActive
                     ? "Drop the file here"
                     : "Drag & drop files here"}
-                </p>
-                <p className="text-xs text-muted-foreground">
+                </Label>
+                <Label className="text-xs text-muted-foreground">
                   {description} (max {maxSize / 1024 / 1024}MB)
-                </p>
+                </Label>
               </div>
               {showUploadButton && (
-                <button
+                <Button
                   type="button"
                   onClick={open}
                   className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none"
                   disabled={disabled}
                 >
                   {uploadButtonText}
-                </button>
+                </Button>
               )}
             </div>
           </div>
@@ -340,9 +344,9 @@ export function DocumentUpload({
       </div>
 
       {error && (
-        <p className="text-sm text-destructive flex items-center">
+        <Label className="text-sm text-destructive flex items-center">
           <X className="w-4 h-4 mr-1.5" /> {error}
-        </p>
+        </Label>
       )}
     </div>
   );

@@ -8,6 +8,7 @@ import { Search, Plus, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 export interface ChatListItem {
   id: string;
@@ -97,7 +98,7 @@ export function ChatList({
               onClick={onClose}
             >
               <X className="h-4 w-4" />
-              <span className="sr-only">Close menu</span>
+              <Label className="sr-only">Close menu</Label>
             </Button>
           )}
         </div>
@@ -108,7 +109,7 @@ export function ChatList({
         <div className="border-b p-2">
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <input
+            <Input
               type="search"
               placeholder="Search chats..."
               className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 pl-8 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
@@ -146,14 +147,14 @@ export function ChatList({
                 <div className="flex items-center justify-between gap-2">
                   <Label className="truncate font-medium">{item.title}</Label>
                   {item.lastMessageTime && (
-                    <span className="whitespace-nowrap text-xs text-muted-foreground">
+                    <Label className="whitespace-nowrap text-xs text-muted-foreground">
                       {formatTimeAgo(item.lastMessageTime)}
-                    </span>
+                    </Label>
                   )}
                 </div>
-                <p className="truncate text-sm text-muted-foreground">
+                <Label className="truncate text-sm text-muted-foreground">
                   {item.lastMessage || item.subtitle}
-                </p>
+                </Label>
               </div>
               {item.unreadCount ? (
                 <Badge
