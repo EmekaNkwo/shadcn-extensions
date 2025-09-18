@@ -1,6 +1,6 @@
 {
   "name": "shadui-extension",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "ShadUI extension library with Chat components and CLI",
   "type": "module",
   "files": [
