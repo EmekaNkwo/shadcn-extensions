@@ -1,13 +1,6 @@
----
-
-# ✅ `CODE_OF_CONDUCT.md`
-
-```markdown
 # Code of Conduct
 
 We follow the [Contributor Covenant](https://www.contributor-covenant.org/) Code of Conduct.
-
----
 
 ## Our Pledge
 
