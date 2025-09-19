@@ -24,6 +24,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 export interface DocumentUploadProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
@@ -270,7 +271,7 @@ export function DocumentUpload({
           className: dropzoneClasses,
         })}
       >
-        <input {...getInputProps()} />
+        <Input {...getInputProps()} data-testid="file-input" />
 
         {file ? (
           <div className={previewClasses}>

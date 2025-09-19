@@ -163,7 +163,11 @@ export function AvatarUpload({
           sizeMap[size]
         )}
       >
-        <Input {...getInputProps()} ref={fileInputRef} />
+        <Input
+          {...getInputProps()}
+          ref={fileInputRef}
+          data-testid="avatar-upload-input"
+        />
         <Avatar className={cn("h-full w-full")}>
           {preview && (
             <AvatarImage

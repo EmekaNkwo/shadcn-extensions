@@ -1,5 +1,9 @@
 # ShadUI Extension 🚀
 
+[![npm version](https://img.shields.io/npm/v/shadui-extension.svg)](https://www.npmjs.com/package/shadui-extension)
+[![npm downloads](https://img.shields.io/npm/dm/shadui-extension.svg)](https://www.npmjs.com/package/shadui-extension)
+[![GitHub stars](https://img.shields.io/github/stars/EmekaNkwo/shadcn-extensions.svg?style=social)](https://github.com/EmekaNkwo/shadcn-extensions)
+
 A **ShadCN-style CLI** for scaffolding custom UI components into your project.  
 Currently includes:
 
