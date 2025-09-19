@@ -5,10 +5,26 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { spawn } from "child_process";
 import ora from "ora";
-const program = new Command();
-// Fix __dirname for ESM
+// 🔹 Fix __dirname for ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+// 🔹 Config
+const baseShadcnDeps = ["utils", "button", "label"];
+const shadcnDeps = {
+    chat: [...baseShadcnDeps, "avatar", "scroll-area", "badge", "textarea"],
+    upload: [...baseShadcnDeps, "input", "avatar"],
+    empty: [...baseShadcnDeps],
+    carousel: [...baseShadcnDeps],
+};
+// 🔹 Detect package manager
+function detectPackageManager(cwd) {
+    if (fs.existsSync(path.join(cwd, "pnpm-lock.yaml")))
+        return "pnpm";
+    if (fs.existsSync(path.join(cwd, "yarn.lock")))
+        return "yarn";
+    return "npm";
+}
+// 🔹 Utility: Run commands with spinner
 async function runCommand(command, args, cwd, spinner) {
     return new Promise((resolve, reject) => {
         const child = spawn(command, args, {
@@ -33,31 +49,30 @@ async function runCommand(command, args, cwd, spinner) {
         });
     });
 }
+// 🔹 Ensure ShadCN installed + required deps
 async function ensureShadcnInstalled(cwd, allNeededDeps) {
     const pkgPath = path.join(cwd, "package.json");
     if (!fs.existsSync(pkgPath)) {
-        console.error("❌ No package.json found in this project.");
+        ora().fail("❌ No package.json found in this project.");
         process.exit(1);
     }
     const configPath = path.join(cwd, "components.json");
-    // Run init if no components.json found
     if (!fs.existsSync(configPath)) {
         const spinner = ora("Initializing ShadCN UI...").start();
         await runCommand("npx", ["shadcn@latest", "init"], cwd, spinner);
     }
-    // Reload config after init
     const componentsConfig = JSON.parse(fs.readFileSync(configPath, "utf-8"));
     const installed = new Set(Object.keys(componentsConfig.dependencies || {}));
-    // Filter missing components
     const toInstall = allNeededDeps.filter((c) => !installed.has(c));
     if (toInstall.length > 0) {
         const spinner = ora(`Installing missing ShadCN components: ${toInstall.join(", ")}`).start();
         await runCommand("npx", ["shadcn@latest", "add", ...toInstall], cwd, spinner);
     }
     else {
-        console.log("✅ All required ShadCN components already installed.");
+        ora().succeed("✅ All required ShadCN components already installed.");
     }
 }
+// 🔹 Ensure hooks
 async function ensureHooks(cwd) {
     const hooksDir = path.join(cwd, "src/hooks");
     const hookFile = path.join(hooksDir, "use-media-query.ts");
@@ -75,21 +90,23 @@ async function ensureHooks(cwd) {
         if (fs.existsSync(templatePath)) {
             await fs.copy(templatePath, hookFile, { overwrite: true });
         }
-        spinner.succeed("♻️ Hook updated: src/hooks/use-media-query.ts");
+        spinner.succeed("Hook updated: src/hooks/use-media-query.ts");
     }
 }
+// 🔹 Install a component
 async function installComponent(cwd, component) {
     if (component === "chat") {
         await ensureHooks(cwd);
     }
     if (component === "upload") {
-        const spinner = ora("Installing react-dropzone...").start();
-        await runCommand("npm", ["install", "react-dropzone"], cwd, spinner);
+        const pkgManager = detectPackageManager(cwd);
+        const spinner = ora(`Installing react-dropzone using ${pkgManager}...`).start();
+        await runCommand(pkgManager, ["install", "react-dropzone"], cwd, spinner);
     }
     const targetDir = path.join(cwd, "src/components", component);
     const templateDir = path.join(__dirname, "../../src/packages", component);
     if (!fs.existsSync(templateDir)) {
-        console.log(`❌ Component '${component}' not found in packages.`);
+        ora().warn(`⚠️ Component '${component}' not found in templates. Skipping.`);
         return;
     }
     await fs.ensureDir(targetDir);
@@ -97,25 +114,31 @@ async function installComponent(cwd, component) {
     await fs.copy(templateDir, targetDir, { overwrite: true });
     spinner.succeed(`✅ ${component} updated in: src/components/${component}`);
 }
+// 🔹 CLI Setup
+const program = new Command();
 program.name("shadui-extension").description("CLI for ShadUI Extensions");
+// Add multiple components
 program
     .command("add <components...>")
     .description("Add or update one or more components (e.g., chat upload carousel)")
     .action(async (components) => {
     const cwd = process.cwd();
-    const baseShadcnDeps = ["utils", "button", "label"];
-    const shadcnDeps = {
-        chat: [...baseShadcnDeps, "avatar", "scroll-area", "badge", "textarea"],
-        upload: [...baseShadcnDeps, "input", "avatar"],
-        empty: [...baseShadcnDeps],
-        carousel: [...baseShadcnDeps],
-    };
-    // Collect all needed deps across requested components
-    const allDeps = components.flatMap((c) => shadcnDeps[c] || []);
-    const uniqueDeps = [...new Set(allDeps)];
-    await ensureShadcnInstalled(cwd, uniqueDeps);
-    for (const component of components) {
-        await installComponent(cwd, component);
+    try {
+        const allDeps = components.flatMap((c) => shadcnDeps[c] || []);
+        const uniqueDeps = [...new Set(allDeps)];
+        await ensureShadcnInstalled(cwd, uniqueDeps);
+        await Promise.all(components.map((c) => installComponent(cwd, c)));
     }
+    catch (error) {
+        ora().fail(`Error: ${error.message}`);
+        process.exit(1);
+    }
+});
+// List components
+program
+    .command("list")
+    .description("List all available components")
+    .action(() => {
+    console.log(Object.keys(shadcnDeps).join("\n"));
 });
 program.parse(process.argv);
